@@ -21,6 +21,8 @@ class Job:
     remote: bool = False
     posted: str | None = None     # ISO date, YYYY-MM-DD
     search: str = ""              # which saved search found it
+    eligibility: str = "eligible"  # UK applicants: "eligible", "unclear" or "not_eligible"
+    eligibility_reason: str = ""
     extra: dict = field(default_factory=dict)
 
     @property

@@ -1,0 +1,11 @@
+{"jobs": [
+ {"title": "Senior DevOps Engineer", "companyName": "Remote First Co", "locationRestrictions": ["United Kingdom", "Ireland"],
+  "minSalary": 70000, "maxSalary": 90000, "salaryPeriod": "annual", "currency": "GBP", "description": "<p>AWS &amp; Terraform</p>",
+  "pubDate": 1762560000, "applicationLink": "https://himalayas.app/companies/remote-first/jobs/senior-devops", "guid": "h-1", "seniority": ["Senior"]},
+ {"title": "Platform Engineer", "companyName": "Anywhere Inc", "locationRestrictions": [],
+  "minSalary": 120000, "maxSalary": 150000, "currency": "USD", "description": "Kubernetes",
+  "pubDate": 1762473600, "applicationLink": "https://himalayas.app/companies/anywhere/jobs/platform", "guid": "h-2"},
+ {"title": "Site Reliability Engineer", "companyName": "US Only LLC", "locationRestrictions": ["United States"],
+  "minSalary": 150000, "maxSalary": 180000, "currency": "USD", "description": "on-call",
+  "pubDate": 1762473600, "applicationLink": "https://himalayas.app/companies/us/jobs/sre", "guid": "h-3"}
+]}

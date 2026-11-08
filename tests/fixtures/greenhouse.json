@@ -1,0 +1,6 @@
+{"jobs": [
+ {"id": 7001, "title": "Platform Engineer", "location": {"name": "London"}, "absolute_url": "https://boards.greenhouse.io/monzo/jobs/7001",
+  "first_published": "2026-11-04T09:00:00-04:00", "updated_at": "2026-11-05T09:00:00-04:00", "content": "&lt;p&gt;Kubernetes&lt;/p&gt;"},
+ {"id": 7002, "title": "Platform Engineer", "location": {"name": "Barcelona"}, "absolute_url": "https://boards.greenhouse.io/monzo/jobs/7002",
+  "updated_at": "2026-11-05T09:00:00-04:00", "content": ""}
+], "meta": {"total": 2}}

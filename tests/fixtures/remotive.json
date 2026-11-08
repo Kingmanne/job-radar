@@ -1,0 +1,10 @@
+{"0-legal-notice": "...", "job-count": 3, "jobs": [
+ {"id": 2001, "url": "https://remotive.com/remote-jobs/devops/devops-2001", "title": "DevOps Engineer", "company_name": "EuroSaaS",
+  "category": "DevOps / Sysadmin", "job_type": "full_time", "publication_date": "2026-11-06T10:00:00",
+  "candidate_required_location": "Europe", "salary": "€70k - €85k", "description": "<p>EKS, ArgoCD</p>"},
+ {"id": 2002, "url": "https://remotive.com/remote-jobs/devops/sre-2002", "title": "SRE", "company_name": "Stateside",
+  "candidate_required_location": "USA", "salary": "$140,000 - $170,000", "publication_date": "2026-11-06T10:00:00",
+  "description": "Must be located in the US."},
+ {"id": 2003, "url": "https://remotive.com/remote-jobs/devops/cloud-2003", "title": "Cloud Engineer", "company_name": "Globe",
+  "candidate_required_location": "Worldwide", "salary": "", "publication_date": "2026-11-05T10:00:00", "description": "AWS"}
+]}

@@ -25,8 +25,13 @@ DEFAULT_SEARCHES = {
     "include_remote": True,
     "min_salary": 45000,
     "min_day_rate": 400,
-    "watch_companies": [],
+    "watch_companies": [],          # e.g. ["greenhouse:monzo", "ashby:synthesia"]
     "adzuna_enabled": False,
+    # Remote boards (no keys needed). Remotive and Remote OK: one call per run.
+    "remote_sources": {"himalayas": True, "remotive": True, "remoteok": True, "hn": True},
+    "himalayas_queries": ["devops", "platform engineer", "site reliability", "cloud engineer"],
+    "remotive_category": None,      # None = whole feed, filtered locally
+    "fx_to_gbp": {},                # overrides for money.DEFAULT_FX, e.g. {"USD": 0.79}
 }
 
 
