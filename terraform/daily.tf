@@ -1,10 +1,11 @@
 data "aws_caller_identity" "current" {}
 
 data "archive_file" "app" {
-  type        = "zip"
-  source_dir  = "${path.module}/../src"
-  output_path = "${path.module}/build/app.zip"
-  excludes    = ["**/__pycache__/**"]
+  type             = "zip"
+  source_dir       = "${path.module}/../src"
+  output_path      = "${path.module}/build/app.zip"
+  excludes         = ["**/__pycache__/**"]
+  output_file_mode = "0644" # same zip (and hash) on a Mac and on the CI runner
 }
 
 # ---------- daily run: fetch -> dedupe -> filter -> score -> digest ----------
