@@ -1,0 +1,3 @@
+# Copy to terraform.tfvars (gitignored) and fill in.
+digest_recipient = "you@example.com"
+alarm_email      = "you@example.com"
