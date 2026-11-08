@@ -1,0 +1,63 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "terraform/**"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false   # never interrupt an apply halfway
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -q
+
+  apply:
+    needs: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_APPLY_ROLE_ARN }}
+          aws-region: eu-west-2
+      - name: Write tfvars from secret
+        env:
+          TF_VARS: ${{ secrets.TF_VARS }}
+        run: printf '%s\n' "$TF_VARS" > terraform.tfvars
+      - run: terraform init -input=false
+      - name: Plan
+        run: terraform plan -input=false -no-color -out=tfplan | tee plan.txt
+      - name: Refuse to destroy
+        run: |
+          if grep -qE '^Plan: .* [1-9][0-9]* to destroy' plan.txt; then
+            echo "::error::Plan destroys resources; not applying from CI."
+            exit 1
+          fi
+      - run: terraform apply -input=false -no-color tfplan
+      - name: Summary
+        if: always()
+        run: grep -E '^(Plan:|No changes|Apply complete)' plan.txt >> "$GITHUB_STEP_SUMMARY" || true

@@ -25,11 +25,13 @@ variable "mail_domain" {
 variable "digest_recipient" {
   description = "Where the daily digest is sent. Must be verified while SES is in the sandbox."
   type        = string
+  sensitive   = true
 }
 
 variable "alarm_email" {
   description = "Where failure alarms are sent (confirm the SNS subscription email once)."
   type        = string
+  sensitive   = true
 }
 
 variable "schedule" {

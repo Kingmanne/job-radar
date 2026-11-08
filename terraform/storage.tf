@@ -21,9 +21,21 @@ resource "aws_dynamodb_table" "jobs" {
 
   global_secondary_index {
     name            = "pending-by-score"
-    hash_key        = "digest_pending"
-    range_key       = "score"
     projection_type = "ALL"
+
+    key_schema {
+      attribute_name = "digest_pending"
+      key_type       = "HASH"
+    }
+    key_schema {
+      attribute_name = "score"
+      key_type       = "RANGE"
+    }
+  }
+
+  # Belt and braces: Terraform refuses any plan that would delete this table.
+  lifecycle {
+    prevent_destroy = true
   }
 
   ttl {
