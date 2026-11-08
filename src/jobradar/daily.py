@@ -1,19 +1,22 @@
-"""Daily run: fetch -> dedupe -> filter -> score -> digest.
-
-Placeholder so the infrastructure deploys in one go. Each step is filled in
-during Phases 1 to 5 of the build plan.
-"""
+"""Daily run: fetch -> (dedupe -> score -> digest arrive in Phases 4-5)."""
 import json
 import logging
-import os
+
+from .fetch import fetch_all
 
 log = logging.getLogger()
 log.setLevel(logging.INFO)
 
 
 def handler(event, context):
-    log.info(json.dumps({"msg": "job-radar daily run started", "table": os.environ.get("TABLE_NAME")}))
-    # Phase 1-2: fetch from Reed, Adzuna, CV-Library, Himalayas, Remotive, Remote OK, HN, watchlist
-    # Phase 4:   dedupe in DynamoDB, UK-eligibility filter, score against CV skills
-    # Phase 5:   query the pending-by-score index and send the SES digest
-    return {"status": "ok", "jobs_new": 0}
+    jobs, stats = fetch_all()
+    summary = {
+        "msg": "job-radar daily run",
+        "total_kept": len(jobs),
+        "raw_by_source": dict(stats["raw"]),
+        "kept_by_source": dict(stats["kept"]),
+        "skipped_sources": stats["skipped_sources"],
+        "errors": stats["errors"],
+    }
+    log.info(json.dumps(summary))
+    return summary

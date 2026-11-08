@@ -1,0 +1,25 @@
+{
+  "results": [
+    {"jobId": 1001, "employerName": "Acme Cloud Ltd", "jobTitle": "DevOps Engineer", "locationName": "Manchester",
+     "minimumSalary": 55000, "maximumSalary": 65000, "currency": "GBP", "date": "05/11/2026",
+     "jobDescription": "AWS, Terraform, Kubernetes, GitHub Actions.", "applications": 12,
+     "jobUrl": "https://www.reed.co.uk/jobs/devops-engineer/1001"},
+    {"jobId": 1002, "employerName": "Contract Co", "jobTitle": "Platform Engineer (Contract)", "locationName": "Remote",
+     "minimumSalary": 450, "maximumSalary": 550, "currency": "GBP", "date": "06/11/2026",
+     "jobDescription": "Outside IR35. EKS and Argo CD.", "applications": 4,
+     "jobUrl": "https://www.reed.co.uk/jobs/platform-engineer/1002"},
+    {"jobId": 1003, "employerName": "Learn IT", "jobTitle": "Trainee DevOps Engineer", "locationName": "Salford",
+     "minimumSalary": 22000, "maximumSalary": 25000, "currency": "GBP", "date": "06/11/2026",
+     "jobDescription": "No experience needed! Career change course.", "applications": 80,
+     "jobUrl": "https://www.reed.co.uk/jobs/trainee/1003"},
+    {"jobId": 1004, "employerName": "Shop Ltd", "jobTitle": "Sales Assistant", "locationName": "Bolton",
+     "minimumSalary": null, "maximumSalary": null, "currency": "GBP", "date": "06/11/2026",
+     "jobDescription": "Customer facing role.", "applications": 3,
+     "jobUrl": "https://www.reed.co.uk/jobs/sales/1004"},
+    {"jobId": 1005, "employerName": "Mystery Corp", "jobTitle": "Site Reliability Engineer", "locationName": "Stockport",
+     "minimumSalary": null, "maximumSalary": null, "currency": "GBP", "date": "07/11/2026",
+     "jobDescription": "Prometheus, Grafana, on-call.", "applications": 1,
+     "jobUrl": "https://www.reed.co.uk/jobs/sre/1005"}
+  ],
+  "totalResults": 5
+}

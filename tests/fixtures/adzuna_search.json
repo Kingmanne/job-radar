@@ -1,0 +1,14 @@
+{
+  "mean": 77123.4,
+  "count": 2,
+  "results": [
+    {"id": "4900001", "title": "Senior Cloud Engineer", "company": {"display_name": "Big Bank"},
+     "location": {"display_name": "London, UK"}, "redirect_url": "https://www.adzuna.co.uk/jobs/land/ad/4900001",
+     "description": "AWS landing zones and Terraform.", "salary_min": 70000, "salary_max": 85000,
+     "created": "2026-11-06T09:12:00Z", "contract_type": "permanent", "contract_time": "full_time"},
+    {"id": "4900002", "title": "DevOps Engineer", "company": {"display_name": "Acme Cloud Ltd"},
+     "location": {"display_name": "Manchester, Greater Manchester"}, "redirect_url": "https://www.adzuna.co.uk/jobs/land/ad/4900002",
+     "description": "Same role as on Reed.", "salary_min": 55000, "salary_max": 65000,
+     "created": "2026-11-05T10:00:00Z"}
+  ]
+}
