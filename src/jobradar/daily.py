@@ -11,6 +11,7 @@ import logging
 import os
 
 from . import settings
+from .digest import send_digest
 from .fetch import fetch_all, summary
 from .scoring import score
 from .sources import reed
@@ -47,7 +48,25 @@ def run(dry_run: bool = False, backend=None) -> tuple[dict, list]:
 
 
 def handler(event, context):
-    result, _ = run(dry_run=bool((event or {}).get("dry_run")))
+    """Scheduled event -> full run + email.
+    {"dry_run": true}      -> fetch and score, write nothing, send nothing
+    {"digest_only": true}  -> skip fetching, just email whatever is pending
+    {"no_email": true}     -> full run, save jobs, but don't send the email"""
+    event = event or {}
+    if event.get("digest_only"):
+        result = {"msg": "job-radar digest only", "digest": send_digest(DynamoBackend())}
+        log.info(json.dumps(result))
+        return result
+    dry = bool(event.get("dry_run"))
+    result, _ = run(dry_run=dry)
+    if not dry and not event.get("no_email"):
+        try:
+            result["digest"] = send_digest(DynamoBackend(), run=result)
+        except Exception as e:                  # the jobs stay pending; alarm fires on the error
+            result["digest"] = {"sent": False, "error": str(e)[:300]}
+            log.error(json.dumps(result))
+            raise
+    result.pop("top_new", None)
     log.info(json.dumps(result))
     return result
 
