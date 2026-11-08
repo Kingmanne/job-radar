@@ -47,3 +47,20 @@ def test_adzuna_normalise_and_km(load):
 def test_adzuna_credential_check():
     assert adzuna.credentials_look_valid("abcd1234", "k" * 32)
     assert not adzuna.credentials_look_valid("k" * 32, "k" * 32)   # key pasted twice
+
+
+def test_reed_enrich_replaces_snippet(load):
+    jobs = [reed.normalise(r) for r in load("reed_search.json")["results"][:2]]
+    calls = []
+
+    def fake_get(url, basic_user=None, **_):
+        calls.append(url)
+        if url.endswith("/1002"):
+            raise reed.SourceError("HTTP 404")
+        return {"jobDescription": "<p>Full ad: AWS, EKS, Terraform, Argo CD and a lot more detail here.</p>",
+                "jobUrl": "https://www.reed.co.uk/jobs/full/1001"}
+
+    n = reed.enrich(jobs, "KEY", pause=0, _get=fake_get)
+    assert n == 1 and len(calls) == 2
+    assert jobs[0].description.startswith("Full ad") and jobs[0].url.endswith("/1001")
+    assert jobs[1].description == "Outside IR35. EKS and Argo CD."    # failure keeps the snippet

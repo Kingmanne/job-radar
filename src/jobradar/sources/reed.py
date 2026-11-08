@@ -7,10 +7,14 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from ..http import get_json
+import time
+
+from ..http import SourceError, get_json
 from ..models import Job
+from ..text import strip_html
 
 SEARCH_URL = "https://www.reed.co.uk/api/1.0/search"
+DETAIL_URL = "https://www.reed.co.uk/api/1.0/jobs/{id}"
 PAGE_SIZE = 100
 
 
@@ -64,3 +68,26 @@ def fetch(api_key: str, keywords: str, location: str, radius_miles: int,
         if len(results) < PAGE_SIZE:
             break
     return jobs
+
+
+def enrich(jobs: list[Job], api_key: str, limit: int = 150, pause: float = 0.2, _get=get_json) -> int:
+    """Search results carry a ~450-character snippet; fetch the full ad for these jobs.
+
+    Only call this for jobs not seen before. Returns how many were enriched.
+    A failed detail call keeps the snippet; it never stops the run.
+    """
+    done = 0
+    for job in [j for j in jobs if j.source == "reed"][:limit]:
+        try:
+            data = _get(DETAIL_URL.format(id=job.source_id), basic_user=api_key, retries=2)
+        except SourceError:
+            continue
+        full = strip_html(data.get("jobDescription"))
+        if len(full) > len(job.description):
+            job.description = full
+            done += 1
+        if data.get("jobUrl"):
+            job.url = data["jobUrl"]
+        if pause:
+            time.sleep(pause)
+    return done

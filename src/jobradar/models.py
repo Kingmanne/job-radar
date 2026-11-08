@@ -5,6 +5,18 @@ import hashlib
 from dataclasses import asdict, dataclass, field
 
 
+_SUFFIXES = {"ltd", "limited", "inc", "llc", "plc", "gmbh", "co", "corp", "corporation", "group", "uk", "the"}
+
+
+def _norm(s: str) -> str:
+    return " ".join("".join(c.lower() if c.isalnum() else " " for c in s).split())
+
+
+def _norm_company(s: str) -> str:
+    """'Acme Cloud Ltd' and 'ACME Cloud Limited' -> 'acme cloud'."""
+    return " ".join(w for w in _norm(s).split() if w not in _SUFFIXES)
+
+
 @dataclass
 class Job:
     source: str              # "reed", "adzuna", ...
@@ -33,8 +45,7 @@ class Job:
     @property
     def fingerprint(self) -> str:
         """Same job posted on several boards gets the same fingerprint."""
-        norm = lambda s: " ".join("".join(c.lower() if c.isalnum() else " " for c in s).split())
-        return hashlib.sha1(f"{norm(self.company)}|{norm(self.title)}".encode()).hexdigest()[:16]
+        return hashlib.sha1(f"{_norm_company(self.company)}|{_norm(self.title)}".encode()).hexdigest()[:16]
 
     def to_dict(self) -> dict:
         d = asdict(self)
