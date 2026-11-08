@@ -39,9 +39,9 @@ resource "aws_iam_role_policy" "daily" {
         Resource = "${aws_cloudwatch_log_group.daily.arn}:*"
       },
       {
-        Sid      = "JobsTable"
-        Effect   = "Allow"
-        Action   = ["dynamodb:GetItem", "dynamodb:PutItem", "dynamodb:UpdateItem", "dynamodb:BatchGetItem", "dynamodb:BatchWriteItem", "dynamodb:Query"]
+        Sid    = "JobsTable"
+        Effect = "Allow"
+        Action = ["dynamodb:GetItem", "dynamodb:PutItem", "dynamodb:UpdateItem", "dynamodb:BatchGetItem", "dynamodb:BatchWriteItem", "dynamodb:Query"]
         Resource = [aws_dynamodb_table.jobs.arn, "${aws_dynamodb_table.jobs.arn}/index/*"]
       },
       {
@@ -58,11 +58,12 @@ resource "aws_iam_role_policy" "daily" {
         Condition = { StringEquals = { "kms:ViaService" = "ssm.${var.region}.amazonaws.com" } }
       },
       {
-        Sid       = "SendDigest"
-        Effect    = "Allow"
-        Action    = ["ses:SendEmail", "ses:SendRawEmail"]
-        Resource  = "*"
-        Condition = { StringEquals = { "ses:FromAddress" = "radar@${var.mail_domain}" } }
+        Sid      = "SendDigest"
+        Effect   = "Allow"
+        Action   = ["ses:SendEmail", "ses:SendRawEmail"]
+        Resource = "*"
+        # Matches "radar@..." and "Job Radar <radar@...>"
+        Condition = { StringLike = { "ses:FromAddress" = ["radar@${var.mail_domain}", "*<radar@${var.mail_domain}>"] } }
       },
       {
         Sid      = "DeadLetter"
@@ -87,11 +88,11 @@ resource "aws_lambda_function" "daily" {
 
   environment {
     variables = {
-      TABLE_NAME   = aws_dynamodb_table.jobs.name
-      PARAM_PREFIX = "/${var.name}"
-      DIGEST_FROM  = "Job Radar <radar@${var.mail_domain}>"
-      DIGEST_TO    = var.digest_recipient
-      JOB_TTL_DAYS = tostring(var.job_ttl_days)
+      TABLE_NAME       = aws_dynamodb_table.jobs.name
+      PARAM_PREFIX     = "/${var.name}"
+      DIGEST_FROM      = "Job Radar <radar@${var.mail_domain}>"
+      DIGEST_TO        = var.digest_recipient
+      JOB_TTL_DAYS     = tostring(var.job_ttl_days)
     }
   }
 

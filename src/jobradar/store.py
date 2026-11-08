@@ -82,6 +82,22 @@ class DynamoBackend:
             ExpressionAttributeValues={":now": _now(), ":exp": int(time.time()) + ttl_days * 86400},
         )
 
+    def list_pending(self) -> list[dict]:
+        from boto3.dynamodb.conditions import Key
+        items, kwargs = [], {"IndexName": INDEX, "ScanIndexForward": False,
+                             "KeyConditionExpression": Key("digest_pending").eq(PENDING)}
+        while True:
+            resp = self.table.query(**kwargs)
+            items.extend(resp["Items"])
+            if "LastEvaluatedKey" not in resp:
+                return items
+            kwargs["ExclusiveStartKey"] = resp["LastEvaluatedKey"]
+
+    def mark_sent(self, pks: list[str]) -> None:
+        for pk in pks:
+            self.table.update_item(Key={"pk": pk}, UpdateExpression="REMOVE digest_pending SET emailed_at = :t",
+                                   ExpressionAttributeValues={":t": _now()})
+
     def count_pending(self) -> int:
         from boto3.dynamodb.conditions import Key
         resp = self.table.query(IndexName=INDEX, KeyConditionExpression=Key("digest_pending").eq(PENDING),
@@ -106,6 +122,15 @@ class MemoryBackend:
 
     def count_pending(self):
         return sum(1 for i in self.items.values() if i.get("digest_pending") == PENDING)
+
+    def list_pending(self):
+        items = [i for i in self.items.values() if i.get("digest_pending") == PENDING]
+        return sorted(items, key=lambda i: i["score"], reverse=True)
+
+    def mark_sent(self, pks):
+        for pk in pks:
+            self.items[pk].pop("digest_pending", None)
+            self.items[pk]["emailed_at"] = _now()
 
 
 def save(scored: list[tuple[Job, int, list[str]]], backend, ttl_days: int = 30,

@@ -66,7 +66,7 @@ AZURE = re.compile(r"\bazure\b", re.I)
 GCP = re.compile(r"\bgcp\b|google cloud", re.I)
 AWS = re.compile(r"\baws\b|amazon web services", re.I)
 
-LEAD = re.compile(r"\b(lead|principal|staff|head of|director|manager|vp)\b", re.I)
+LEAD = re.compile(r"\b(lead|principal|principle|staff|head of|director|manager|vp)\b", re.I)
 SENIOR = re.compile(r"\b(senior|sr\.?|snr)\b", re.I)
 JUNIOR = re.compile(r"\b(junior|jnr|graduate|entry[- ]level|associate)\b", re.I)
 
