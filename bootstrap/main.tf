@@ -34,6 +34,19 @@ variable "github_repo" {
   default = "Kingmanne/job-radar"
 }
 
+# GitHub's newer token format names the owner and repo with their numeric IDs
+# ("repo:Kingmanne@173724415/job-radar@1450656179:..."). IDs never change, so a
+# deleted-and-recreated repo with the same name could not use these roles.
+variable "github_owner_id" {
+  type    = string
+  default = "173724415"
+}
+
+variable "github_repo_id" {
+  type    = string
+  default = "1450656179"
+}
+
 variable "state_bucket" {
   type    = string
   default = "eks-platform-tfstate-371510064293"
@@ -55,6 +68,14 @@ locals {
   # Everything the app stack creates is named job-radar-*. The CI roles are
   # named gha-job-radar-* on purpose, so the apply role cannot edit them.
   app = "job-radar"
+
+  # Accept both the ID-based subject (what GitHub sends now) and the classic one.
+  owner     = split("/", var.github_repo)[0]
+  repo_name = split("/", var.github_repo)[1]
+  sub_prefixes = [
+    "repo:${local.owner}@${var.github_owner_id}/${local.repo_name}@${var.github_repo_id}",
+    "repo:${var.github_repo}",
+  ]
 }
 
 data "aws_iam_openid_connect_provider" "github" {
@@ -82,7 +103,7 @@ resource "aws_iam_role" "plan" {
       Condition = {
         StringEquals = {
           "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-          "token.actions.githubusercontent.com:sub" = "repo:${var.github_repo}:pull_request"
+          "token.actions.githubusercontent.com:sub" = [for p in local.sub_prefixes : "${p}:pull_request"]
         }
       }
     }]
@@ -125,7 +146,7 @@ resource "aws_iam_role" "apply" {
       Condition = {
         StringEquals = {
           "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-          "token.actions.githubusercontent.com:sub" = "repo:${var.github_repo}:ref:refs/heads/main"
+          "token.actions.githubusercontent.com:sub" = [for p in local.sub_prefixes : "${p}:ref:refs/heads/main"]
         }
       }
     }]
