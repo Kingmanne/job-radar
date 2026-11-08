@@ -1,0 +1,9 @@
+{"jobs": [
+ {"id": "a-1", "title": "Senior DevOps Engineer", "location": "UK Remote", "secondaryLocations": [], "isRemote": true,
+  "isListed": true, "jobUrl": "https://jobs.ashbyhq.com/acme/a-1", "publishedAt": "2026-11-03T12:00:00.000+00:00",
+  "descriptionPlain": "AWS",
+  "compensation": {"summaryComponents": [{"compensationType": "Salary", "interval": "1 YEAR", "currencyCode": "GBP",
+                                          "minValue": 80000, "maxValue": 95000}]}},
+ {"id": "a-2", "title": "SecOps Engineer", "location": "US Remote", "isRemote": true, "isListed": true,
+  "jobUrl": "https://jobs.ashbyhq.com/acme/a-2", "publishedAt": "2026-11-03T12:00:00.000+00:00", "descriptionPlain": ""}
+]}

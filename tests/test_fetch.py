@@ -6,6 +6,7 @@ CFG = {
     "exclude_words": ["trainee", "no experience"],
     "locations": [{"name": "Manchester", "radius_miles": 40}],
     "min_salary": 45000, "min_day_rate": 400, "adzuna_enabled": False,
+    "include_remote": False, "watch_companies": [],
 }
 
 

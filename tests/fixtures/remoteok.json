@@ -1,0 +1,6 @@
+[{"last_updated": 1762560000, "legal": "API terms: link back to Remote OK"},
+ {"id": "3001", "position": "DevOps Engineer", "company": "Nomad Ltd", "location": "Worldwide", "salary_min": 90000,
+  "salary_max": 120000, "date": "2026-11-07T08:00:00+00:00", "url": "https://remoteok.com/remote-jobs/3001",
+  "description": "&lt;p&gt;Terraform&lt;/p&gt;", "tags": ["devops", "aws"]},
+ {"id": "3002", "position": "Senior Frontend Engineer", "company": "Pixels", "location": "Remote", "salary_min": 0,
+  "salary_max": 0, "date": "2026-11-07T08:00:00+00:00", "url": "https://remoteok.com/remote-jobs/3002", "description": "React"}]

@@ -1,0 +1,8 @@
+{"id": 9000, "title": "Ask HN: Who is hiring? (November 2026)", "children": [
+ {"id": 9001, "author": "acme", "created_at_i": 1762041600,
+  "text": "Acme Robotics | Senior Platform Engineer | London, UK | ONSITE or REMOTE (UK) | £90-110k<p>We run EKS on AWS.</p>"},
+ {"id": 9002, "author": "bigco", "created_at_i": 1762041600,
+  "text": "BigCo | DevOps Engineer | San Francisco | Onsite<p>Visa sponsorship available.</p>"},
+ {"id": 9003, "author": "frontendco", "created_at_i": 1762041600, "text": "Frontend Co | React Developer | REMOTE"},
+ {"id": 9004, "author": null, "text": null}
+]}

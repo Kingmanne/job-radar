@@ -11,7 +11,7 @@ TITLE_WORDS = ["devops", "dev ops", "platform", "sre", "site reliability", "clou
 # A title containing any of these is a different job family, even if it says "cloud" or "platform".
 TITLE_EXCLUDE = ["power platform", "data engineer", "full stack", "fullstack", "frontend",
                  "front end", "developer", "data scientist", "sales", "recruiter", "1st line",
-                 "2nd line", "helpdesk", "service desk"]
+                 "2nd line", "helpdesk", "service desk", "data platform", "support specialist"]
 
 
 def is_relevant(job: Job, exclude_words: list[str], exclude_titles: list[str] | None = None) -> bool:
