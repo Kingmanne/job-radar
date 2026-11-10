@@ -14,7 +14,7 @@ terraform {
 
   # Same state bucket as the EKS project, separate key.
   backend "s3" {
-    bucket       = "eks-platform-tfstate-371510064293"
+    bucket       = "job-radar-tfstate-229173780431"
     key          = "job-radar/terraform.tfstate"
     region       = "eu-west-2"
     encrypt      = true

@@ -14,7 +14,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket       = "eks-platform-tfstate-371510064293"
+    bucket       = "job-radar-tfstate-229173780431"
     key          = "job-radar/bootstrap.tfstate"
     region       = "eu-west-2"
     encrypt      = true
@@ -49,13 +49,13 @@ variable "github_repo_id" {
 
 variable "state_bucket" {
   type    = string
-  default = "eks-platform-tfstate-371510064293"
+  default = "job-radar-tfstate-229173780431"
 }
 
 variable "create_oidc_provider" {
-  description = "An AWS account can hold only one GitHub OIDC provider. The EKS project probably made it already: leave false to reuse it."
+  description = "An AWS account can hold only one GitHub OIDC provider. true = create it here; false = reuse one another stack already made."
   type        = bool
-  default     = false
+  default     = true
 }
 
 data "aws_caller_identity" "current" {}
